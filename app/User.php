@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+      use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'phone'
     ];
 
     /**
@@ -26,4 +26,18 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected $casts =[
+      'is_admin' => 'boolean'
+    ];
+
+    public static function findByEmail($email)
+    {
+      return static::where(compact('email'))->first();
+    }
+
+    public function isAdmin()
+    {
+      return $this->email === 'alant@hotmail.com';
+    }
 }
