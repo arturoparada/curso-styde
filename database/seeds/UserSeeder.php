@@ -2,6 +2,9 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+Use App\Profession;
+use App\User;
+
 
 class UserSeeder extends Seeder
 {
@@ -17,11 +20,9 @@ class UserSeeder extends Seeder
         //$professions = DB::table ('professions')->select('id')->take(1)->get();
         //$profession = DB::table ('professions')->select('id')->first();
 
-        $professionID = DB::table('professions')
-          ->where('title', 'Desarrollador back-end')
-          ->value('id');
+        $professionID = \App\Profession::where('title', 'Desarrollador back-end')->value('id');
 
-        DB::table('users')->insert([
+        User::create([
           'name'=> 'Alan Turing',
           'email'=>'alant@hotmail.com',
           'password'=> bcrypt('laravel'),
@@ -29,13 +30,21 @@ class UserSeeder extends Seeder
           'profession_id' => $professionID
         ]);
 
-        DB::insert('INSERT INTO users (name, email, password, phone, profession_id)
-        VALUES (:name, :email, :password, :phone, :profession_id)',[
+        User::create([
           'name' => 'Ada Lovelace',
           'email' => 'alove@gmail.com',
           'password' => bcrypt('laragon'),
           'phone' => '6622134589',
           'profession_id' => $professionID
         ]);
+
+        /*DB::insert('INSERT INTO users (name, email, password, phone, profession_id)
+        VALUES (:name, :email, :password, :phone, :profession_id)',[
+          'name' => 'Ada Lovelace',
+          'email' => 'alove@gmail.com',
+          'password' => bcrypt('laragon'),
+          'phone' => '6622134589',
+          'profession_id' => $professionID
+        ]);*/
     }
   }
