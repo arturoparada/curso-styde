@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers; //patron psr4
 
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
     public function index()
     {
-      $users = [
-        'Ada',
-        'John',
-        'Jane',
-        'Alan',
-        'Bill',
-        '<script>alert("Hackeado")</script>'
-      ];
+      //$users = DB::table('users')->get();  //carga nombre de usuario a la pagina se modificó index.blade.php para imprimir el valor dentro del objeto usuario <li>{{ $user->name }}</li>
+
+      $users = User::all();
 
       $title ='Listado de usuarios';
-      //dd(compact('title', 'users'));
+
+     /* return view('users.index')
+      ->with('users', User::all())
+      ->with('title', 'Listado de usuarios');*/
 
       return view('users.index', compact('title','users'));
 
@@ -29,7 +29,10 @@ class UserController extends Controller
 
     public function show($id)
     {
-      return view('users.show', compact('id'));
+
+      $user = User::find($id);
+      
+      return view('users.show', compact('user'));
 
     }
 

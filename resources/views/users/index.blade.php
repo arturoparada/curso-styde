@@ -8,14 +8,9 @@
 
   <ul>
     @forelse ($users as $user)
-      <li>{{ $user }}</li>
+      <li>{{ $user->name }}, {{$user->email}}</li>
     @empty
       <li>Sin usuarios registrados</li>
     @endforelse
   </ul>
-@endsection
-
-@section('sidebar')
-  @parent
-  <h2>Barra lateral personalizada t(-_-t)</h2>
 @endsection

@@ -31,11 +31,11 @@ class UserSeeder extends Seeder
           'is_admin' => true,
         ]);*/
 
-        factory(User::class) -> create([
+        factory(User::class)->create([
           //'name'=> 'Alan Turing',
           'email'=>'alant@hotmail.com',
           'password'=> bcrypt('laravel'),
-          //'phone'=> '6622122823',
+          'phone'=> '6622122823',
           'profession_id' => $professionID,
           'is_admin' => true,
         ]);

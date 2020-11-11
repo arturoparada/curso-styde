@@ -3,14 +3,26 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UsersModuleTest extends TestCase
 {
-    /** @test */
+
+  use RefreshDatabase;
+
+  /** @test */
     function it_loads_the_users_list_page()
     {
+        factory(User::class)->create([
+          'name' => 'Alan',
+        ]);
+
+        factory(User::class)->create([
+          'name' => 'Ada',
+        ]);
+
         $this->get('/usuarios')
         ->assertStatus(200)
         ->assertSee('Listado de usuarios')
@@ -19,11 +31,16 @@ class UsersModuleTest extends TestCase
     }
 
     /** @test */
-    function it_loads_the_users_details_page()
+    function it_displays_the_users_details()
     {
-      $this->get('/usuarios/5')
+
+      $user = factory(User::class)->create([
+        'name' => 'Arturo Parada'
+      ]);
+
+      $this->get('/usuarios/.$user->id') //usuarios/5
       ->assertStatus(200)
-      ->assertSee('Mostrando detalles del usuario: 5');
+      ->assertSee('Arturo Parada');
     }
 
     /** @test */

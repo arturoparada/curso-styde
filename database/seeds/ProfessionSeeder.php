@@ -41,7 +41,7 @@ class ProfessionSeeder extends Seeder
         'title' => 'Diseñador web',
       ]);
 
-      factory(Profession::class)->times(20)->create();
+      factory(Profession::class)->times(17)->create();
 
       /*DB::delete('DELETE FROM professions
         WHERE (title) = (:title)',[
