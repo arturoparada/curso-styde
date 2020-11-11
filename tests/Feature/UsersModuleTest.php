@@ -38,9 +38,17 @@ class UsersModuleTest extends TestCase
         'name' => 'Arturo Parada'
       ]);
 
-      $this->get('/usuarios/.$user->id') //usuarios/5
+      $this->get('/usuarios/'.$user->id) //usuarios/5
       ->assertStatus(200)
       ->assertSee('Arturo Parada');
+    }
+
+    /** @test */
+    function it_displays_error_404_if_user_not_found()
+    {
+      $this->get('usuarios/999')
+      ->assertStatus(404)
+      ->assertSee('Página no encontrada');
     }
 
     /** @test */
