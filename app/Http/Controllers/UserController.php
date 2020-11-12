@@ -27,22 +27,29 @@ class UserController extends Controller
             ->with('title', 'Listado de usuarios');*/
     }
 
-    public function show($id)
-    {
-
-      $user = User::find($id);
-
-      if($user == null){
-        return response()->view('errors.404', [], 404);
-      }
-      
+    public function show(User $user)
+    {   
       return view('users.show', compact('user'));
 
     }
 
     public function create()
     {
-      return "Crear nuevo usuario";
+      return view('users.create');
+    }
+
+    public function store()
+    {
+        $data = request()->all();
+
+        User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+            'phone' => $data['phone']
+        ]);
+
+        return redirect()->route('users.index');
     }
 
     public function edit($id)
