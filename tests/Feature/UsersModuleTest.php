@@ -60,23 +60,43 @@ class UsersModuleTest extends TestCase
       ->assertSee('Crear usuario');
     }
 
+    /** @test */
+    function it_creates_a_new_user()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->post('/usuarios/', [
+            'name' => 'Duilio',
+            'email' => 'duilia@styde.net',
+            'password' => '123456',
+            'phone' => '6655447788'
+        ])->assertRedirect('usuarios');
+
+        $this->assertCredentials([
+            'name' => 'Duilio',
+            'email' => 'duilia@styde.net',
+            'password' => '123456',
+            'phone' => '6655447788'
+        ]);
+    }
+
    /** @test */
-   function it_creates_a_new_user()
-   {
-       $this->withoutExceptionHandling();
+    function the_name_is_required()
+    {
+        $this->from('usuarios/nuevo')
+              ->post('/usuarios/', [
+                  'name' => '',
+                  'email' => 'duilia@styde.net',
+                  'password' => '123456',
+                  'phone' => '6622445566'
+            ])
+            ->assertRedirect('usuarios/nuevo')
+            ->assertSessionHasErrors(['name' => 'El campo nombre es obligatorio']);
 
-       $this->post('/usuarios/', [
-           'name' => 'Duilio',
-           'email' => 'duilio@styde.net',
-           'password' => '123456',
-           'phone' => '6622445566'
-       ])->assertRedirect('usuarios');
+       $this->assertEquals(0, User::count());
 
-       $this->assertCredentials([
-           'name' => 'Duilio',
-           'email' => 'duilio@styde.net',
-           'password' => '123456',
-           'phone' => '6622445566',
-       ]);
-   }
+//        $this->assertDatabaseMissing('users', [
+//           'email' => 'duilia@styde.net',
+//       ]);
+}
 }

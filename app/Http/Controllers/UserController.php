@@ -28,7 +28,7 @@ class UserController extends Controller
     }
 
     public function show(User $user)
-    {   
+    {
       return view('users.show', compact('user'));
 
     }
@@ -39,18 +39,31 @@ class UserController extends Controller
     }
 
     public function store()
-    {
-        $data = request()->all();
+      {
+          $data = request()->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'phone' => 'required'
+          ], [
+            'name.required' => 'El campo nombre es obligatorio'
+          ]);
 
-        User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'phone' => $data['phone']
-        ]);
+//        if (empty($data['name'])) {
+  //         return redirect('usuarios/nuevo')->withErrors([
+  //           'name' => 'El campo nombre es obligatorio'
+  //         ]);
+  //       }
 
-        return redirect()->route('users.index');
-    }
+          User::create([
+              'name' => $data['name'],
+              'email' => $data['email'],
+              'password' => bcrypt($data['password']),
+              'phone' => $data['phone']
+          ]);
+
+          return redirect()->route('users.index');
+      }
 
     public function edit($id)
     {
