@@ -52,7 +52,6 @@ class UsersModuleTest extends TestCase
     }
 
     /** @test */
-
     function it_loads_the_new_users()
     {
       $this->get('/usuarios/nuevo')
@@ -66,37 +65,141 @@ class UsersModuleTest extends TestCase
         $this->withoutExceptionHandling();
 
         $this->post('/usuarios/', [
-            'name' => 'Duilio',
-            'email' => 'duilia@styde.net',
+            'name' => 'Arturo',
+            'email' => 'user@example.com',
             'password' => '123456',
-            'phone' => '6655447788'
+            'phone' => '1122334455'
         ])->assertRedirect('usuarios');
 
         $this->assertCredentials([
-            'name' => 'Duilio',
-            'email' => 'duilia@styde.net',
+            'name' => 'Arturo',
+            'email' => 'user@example.com',
             'password' => '123456',
-            'phone' => '6655447788'
+            'phone' => '1122334455'
         ]);
     }
 
-   /** @test */
-    function the_name_is_required()
-    {
-        $this->from('usuarios/nuevo')
-              ->post('/usuarios/', [
-                  'name' => '',
-                  'email' => 'duilia@styde.net',
-                  'password' => '123456',
-                  'phone' => '6622445566'
-            ])
-            ->assertRedirect('usuarios/nuevo')
-            ->assertSessionHasErrors(['name' => 'El campo nombre es obligatorio']);
+       /** @test */
+        function the_name_is_required()
+        {
+            $this->from('usuarios/nuevo')
+                  ->post('/usuarios/', [
+                      'name' => '',
+                      'email' => 'user@example.com',
+                      'password' => 'laravel123',
+                      'phone' => '1122334455'
+                ])
+                ->assertRedirect('usuarios/nuevo')
+                ->assertSessionHasErrors(['name' => 'Necesitamos saber tu nombre']);
 
-       $this->assertEquals(0, User::count());
+           $this->assertEquals(0, User::count());
+    }
 
-//        $this->assertDatabaseMissing('users', [
-//           'email' => 'duilia@styde.net',
-//       ]);
+       /** @test */
+        function the_email_is_required()
+        {
+
+            $this->from('usuarios/nuevo')
+                  ->post('/usuarios/', [
+                    'name' => 'Arturo',
+                    'email' => '',
+                    'password' => 'laravel123',
+                    'phone' => '1122334455'
+                ])
+                ->assertRedirect('usuarios/nuevo')
+                ->assertSessionHasErrors(['email']);
+
+           $this->assertEquals(0, User::count());
+    }
+
+    /** @test */
+     function the_email_must_be_valid()
+     {
+       //$this->withoutExceptionHandling();
+
+         $this->from('usuarios/nuevo')
+               ->post('/usuarios/', [
+                 'name' => 'Arturo',
+                 'email' => 'correo-no_valido',
+                 'password' => 'laravel123',
+                 'phone' => '1122334455'
+             ])
+             ->assertRedirect('usuarios/nuevo')
+             ->assertSessionHasErrors(['email']);
+
+        $this->assertEquals(0, User::count());
+ }
+
+ /** @test */
+  function the_email_must_be_unique()
+  {
+
+    factory(User::class)->create([
+      'email' => 'user@example.com'
+    ]);
+
+      $this->from('usuarios/nuevo')
+            ->post('/usuarios/', [
+              'name' => 'Arturo',
+              'email' => 'user@example.com',
+              'password' => 'laravel123',
+              'phone' => '1122334455'
+          ])
+          ->assertRedirect('usuarios/nuevo')
+          ->assertSessionHasErrors(['email']);
+
+     $this->assertEquals(1, User::count());
 }
+
+    /** @test */
+     function the_password_is_required()
+     {
+
+         $this->from('usuarios/nuevo')
+               ->post('/usuarios/', [
+                 'name' => 'Arturo',
+                 'email' => 'user@example.com',
+                 'password' => '',
+                 'phone' => '1122334455'
+             ])
+             ->assertRedirect('usuarios/nuevo')
+             ->assertSessionHasErrors(['password']);
+
+        $this->assertEquals(0, User::count());
+ }
+
+ /** @test */
+  function password_check_min_size()
+  {
+
+      $this->from('usuarios/nuevo')
+            ->post('/usuarios/', [
+              'name' => 'Arturo',
+              'email' => 'user@example.com',
+              'password' => '',
+              'phone' => '1122334455'
+          ])
+          ->assertRedirect('usuarios/nuevo')
+          ->assertSessionHasErrors(['password']);
+
+     $this->assertEquals(0, User::count());
+}
+
+     /** @test */
+      function the_phone_is_required()
+      {
+
+          $this->from('usuarios/nuevo')
+                ->post('/usuarios/', [
+                  'name' => 'Arturo',
+                  'email' => 'user@example.com',
+                  'password' => 'laravel123',
+                  'phone' => ''
+              ])
+              ->assertRedirect('usuarios/nuevo')
+              ->assertSessionHasErrors(['phone']);
+
+         $this->assertEquals(0, User::count());
+  }
+
 }

@@ -9,10 +9,11 @@
   <ul>
     @forelse ($users as $user)
       <li>
-      
+
       {{ $user->name }}
 
-      <a href="{{ route('users.show', ['id' => $user->id]) }}">Ver detalles</a>
+      <a href="{{ route('users.show', ['id' => $user->id]) }}">Detalles </a>
+      <a href="{{ route('users.edit', ['id' => $user->id]) }}">Editar </a>
 
       </li>
     @empty

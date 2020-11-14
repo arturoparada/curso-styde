@@ -40,20 +40,25 @@ class UserController extends Controller
 
     public function store()
       {
+        //return redirect('usuarios/nuevo')->withInput();
           $data = request()->validate([
             'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'phone' => 'required'
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'min:6'],
+            'phone' => ['required', 'numeric', 'unique:users,phone', 'min:10, max:10']
+            //'email' => 'regex:/^.+@.+$/i'   // ejemplo regex
           ], [
-            'name.required' => 'El campo nombre es obligatorio'
+            'name.required' => 'Necesitamos saber tu nombre',
+            'email.required' => 'Necesitamos saber tu correo!',
+            'email.unique' => 'El correo ya se encuentra registrado',
+            'password.required' => 'Por favor, ingresa una contraseña',
+            'password.min' => 'Contraseña debe tener minimo 6 caracteres',
+            'phone.required' => 'Necesitamos un número telefónico',
+            'phone.min' => 'Número telefónico a 10 digitos',
+            'phone.max' => 'Número telefónico a 10 digitos',
+            'phone.numeric' => 'Solo números',
+            'phone.unique' => "Ya existe un usuario registrado con ese número telefónico",
           ]);
-
-//        if (empty($data['name'])) {
-  //         return redirect('usuarios/nuevo')->withErrors([
-  //           'name' => 'El campo nombre es obligatorio'
-  //         ]);
-  //       }
 
           User::create([
               'name' => $data['name'],
@@ -65,8 +70,9 @@ class UserController extends Controller
           return redirect()->route('users.index');
       }
 
-    public function edit($id)
+    public function edit(User $user)
     {
-      return "Modificando usuario: {$id}";
+      return view('users.edit', ['user' => $user]);
+      //return "Modificando usuario: {$id}";
     }
 }

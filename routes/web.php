@@ -21,5 +21,6 @@ Route::get('saludo/{name}/{nickname}', 'WelcomeUserController@with_nickname')
 
 Route::get('saludo/{name}', 'WelcomeUserController@saludo');
 
-Route::get('usuarios/{id}/edit', 'UserController@edit')
-      ->where('id', '\d+');
+Route::get('usuarios/{user}/edit', 'UserController@edit')
+      ->where('id', '\d+')
+      ->name('users.edit');

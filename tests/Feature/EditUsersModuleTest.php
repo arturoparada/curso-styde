@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -9,11 +10,17 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class EditUsersModuleTest extends TestCase
 {
     /** @test */
-    function it_loads_the_edit_users_page_test()
+    function it_loads_the_edit_users_page()
     {
-      $this->get('/usuarios/5/edit')
+      $user = factory(User::class)->create();
+
+      $this->get("/usuarios/{$user->id}/edit")
       ->assertStatus(200)
-      ->assertSee('Modificando usuario: 5');
+      ->assertViewIs('users.edit')
+      ->assertSee('Editar usuario')
+      ->assertViewHas('user', function($viewUser) use ($user){
+        return $viewUser->id == $user->id;
+      });
     }
 
     /** @test */
