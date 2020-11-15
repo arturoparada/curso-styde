@@ -3,10 +3,11 @@
 namespace Tests\Feature;
 
 use App\User;
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
 
 class EditUsersModuleTest extends TestCase
 {

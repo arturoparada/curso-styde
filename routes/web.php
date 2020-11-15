@@ -16,13 +16,16 @@ Route::get('/usuarios/nuevo', 'UserController@create')
 
 Route::post('/usuarios', 'UserController@store');
 
-Route::get('saludo/{name}/{nickname}', 'WelcomeUserController@with_nickname')
+Route::get('/saludo/{name}/{nickname}', 'WelcomeUserController@with_nickname')
 ->name('users.welcome');
 
-Route::get('saludo/{name}', 'WelcomeUserController@saludo');
+Route::get('/saludo/{name}', 'WelcomeUserController@saludo');
 
-Route::get('usuarios/{user}/edit', 'UserController@edit')
+Route::get('/usuarios/{user}/edit', 'UserController@edit')
       ->where('id', '\d+')
       ->name('users.edit');
 
 Route::put('/usuarios/{user}', 'UserController@update');
+
+Route::delete('/usuarios/{user}', 'UserController@destroy')
+        ->name('users.destroy');
