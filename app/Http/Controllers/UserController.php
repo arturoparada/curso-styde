@@ -5,6 +5,7 @@ namespace App\Http\Controllers; //patron psr4
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -74,5 +75,24 @@ class UserController extends Controller
     {
       return view('users.edit', ['user' => $user]);
       //return "Modificando usuario: {$id}";
+    }
+
+    public function update(User $user)
+    {
+      $data = request()->validate([
+        'name' => 'required',
+        //'email' => ['required', 'email', 'unique:users,email,'.$user->id],    //cambia a una mejor sintaxis
+        'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
+        'password' => '',
+        'phone' => 'required',
+      ]);
+      if ($data['password'] != null) {
+      $data['password'] = bcrypt($data['password']);
+    }else {
+      unset($data['password']);
+    }
+      $user->update($data);
+
+      return redirect()->route('users.show', ['user' => $user]);
     }
 }

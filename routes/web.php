@@ -12,15 +12,17 @@ Route::get('/usuarios/{user}', 'UserController@show')
     ->name('users.show');
 
 Route::get('/usuarios/nuevo', 'UserController@create')
-    ->name('users.create');;
+    ->name('users.create');
 
 Route::post('/usuarios', 'UserController@store');
 
 Route::get('saludo/{name}/{nickname}', 'WelcomeUserController@with_nickname')
-->name('users.welcome');;
+->name('users.welcome');
 
 Route::get('saludo/{name}', 'WelcomeUserController@saludo');
 
 Route::get('usuarios/{user}/edit', 'UserController@edit')
       ->where('id', '\d+')
       ->name('users.edit');
+
+Route::put('/usuarios/{user}', 'UserController@update');
