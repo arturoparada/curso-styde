@@ -45,18 +45,18 @@ class UserController extends Controller
           $data = request()->validate([
             'name' => 'required',
             'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'min:6'],
-            'phone' => ['required', 'numeric', 'unique:users,phone', 'min:10, max:10']
+            'password' => ['required', 'min:8'],
+            'phone' => ['required', 'numeric', 'unique:users,phone', 'digits:10']
             //'email' => 'regex:/^.+@.+$/i'   // ejemplo regex
           ], [
             'name.required' => 'Necesitamos saber tu nombre',
             'email.required' => 'Necesitamos saber tu correo!',
-            'email.unique' => 'El correo ya se encuentra registrado',
+            'email.email' => 'Correo electrónico no valido',
+            'email.unique' => 'Ya existe un usuario registrado con ese correo',
             'password.required' => 'Por favor, ingresa una contraseña',
-            'password.min' => 'Contraseña debe tener minimo 6 caracteres',
+            'password.min' => 'Contraseña debe tener minimo 10 caracteres',
             'phone.required' => 'Necesitamos un número telefónico',
-            'phone.min' => 'Número telefónico a 10 digitos',
-            'phone.max' => 'Número telefónico a 10 digitos',
+            'phone.digits' => 'Número telefónico a 10 digitos',
             'phone.numeric' => 'Solo números',
             'phone.unique' => "Ya existe un usuario registrado con ese número telefónico",
           ]);
@@ -84,7 +84,16 @@ class UserController extends Controller
         //'email' => ['required', 'email', 'unique:users,email,'.$user->id],    //cambia a una mejor sintaxis
         'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
         'password' => '',
-        'phone' => 'required',
+        'phone' => ['required', 'numeric', 'digits:10', Rule::unique('users')->ignore($user->id)],
+      ],[
+        'name.required' => 'Necesitamos saber tu nombre',
+        'email.required' => 'Necesitamos saber tu correo',
+        'email.email' => 'Correo electrónico no valido',
+        'email.unique' => 'Ya existe un usuario registrado con ese correo',
+        'phone.required' => 'Necesitamos tu numero telefónico',
+        'phone.numeric' => 'Este es un campo numerico',
+        'phone.digits' => 'Numero telefónico a 10 digitos',
+        'phone.unique' => 'Ya existe un usuario registrado con ese numero telefónico',
       ]);
       if ($data['password'] != null) {
       $data['password'] = bcrypt($data['password']);

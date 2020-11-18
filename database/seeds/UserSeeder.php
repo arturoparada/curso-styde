@@ -32,8 +32,8 @@ class UserSeeder extends Seeder
         ]);*/
 
         factory(User::class)->create([
-          //'name'=> 'Alan Turing',
-          'email'=>'alant@hotmail.com',
+          'name'=> 'Alan Turing',
+          'email'=>'alant@tester.com',
           'password'=> bcrypt('laravel'),
           'phone'=> '6622122823',
           'profession_id' => $professionID,
@@ -41,7 +41,12 @@ class UserSeeder extends Seeder
         ]);
 
         factory(User::class)->create([
-          'profession_id' => $professionID
+          'name'=> 'Ada Lovelace',
+          'email'=>'lovelace@example.com',
+          'password'=> bcrypt('laravel'),
+          'phone'=> '6622130275',
+          'profession_id' => $professionID,
+          'is_admin' => true,
         ]);
 
        factory(User::class, 48)->create();

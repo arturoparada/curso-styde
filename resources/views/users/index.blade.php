@@ -4,28 +4,45 @@
 
 @section('content')
 
-  <h1>{{ $title }}</h1>
-  <p>
-    <a href="{{ route('users.create') }}">Crear nuevo</a>
-  </p>
+  <div class="d-flex justify-content-between align-items-end mb-3">
+       <h1 class="pb-1">{{ $title }}</h1>
+       <p>
+           <a href="{{ route('users.create') }}" class="btn btn-primary">Nuevo usuario</a>
+       </p>
+   </div>
 
-  <ul>
-    @forelse ($users as $user)
-      <li>
+  @if ($users->isNotEmpty())
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Correo</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach ($users as $user)
+    <tr>
+      <th scope="row">{{ $user->id }}</th>
+      <td>{{ $user->name }}</td>
+      <td>{{ $user->email }}</td>
+      <td>
+        <form action="{{ route('users.destroy', $user) }}" method="POST">
+          {{ csrf_field() }}
+          {{ method_field('DELETE') }}
+          <a href="{{ route('users.show', $user) }}" class="btn btn-link"><span class="oi oi-info"></span></a>
 
-      {{ $user->name }}
+          <a href="{{ route('users.edit', $user) }}" class="btn btn-link"><span class="oi oi-pencil"></span></a>
+          <button type="submit" class="btn btn-link"><span class="oi oi-trash"></span></button>
 
-      <a href="{{ route('users.show', $user) }}">Detalles</a> |
-      <a href="{{ route('users.edit', $user) }}">Editar</a> |
-      <form action="{{ route('users.destroy', $user) }}" method="POST">
-        {{ csrf_field() }}
-        {{ method_field('DELETE') }}
-        <button type="submit">Eliminar</button>
-      </form>
-
-      </li>
-    @empty
-      <li>Sin usuarios registrados</li>
-    @endforelse
-  </ul>
+        </form>
+      </td>
+    </tr>
+    @endforeach
+  </tbody>
+</table>
+  @else
+    <p>Sin usuarios registrdos...</p>
+  @endif
 @endsection

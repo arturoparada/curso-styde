@@ -62,19 +62,19 @@ class UsersModuleTest extends TestCase
     /** @test */
     function it_creates_a_new_user()
     {
-        $this->withoutExceptionHandling();
+        //$this->withoutExceptionHandling();
 
         $this->post('/usuarios/', [
             'name' => 'Arturo',
             'email' => 'user@example.com',
-            'password' => '123456',
+            'password' => 'Laravel123',
             'phone' => '1122334455'
         ])->assertRedirect('usuarios');
 
         $this->assertCredentials([
             'name' => 'Arturo',
             'email' => 'user@example.com',
-            'password' => '123456',
+            'password' => 'Laravel123',
             'phone' => '1122334455'
         ]);
     }
