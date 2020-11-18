@@ -3,22 +3,31 @@
 @section('title', "Usuario {$user->id}")
 
 @section('content')
-  <h1>Usuario #{{ $user->id }}</h1>
 
- <!-- Mostrando detalles del usuario: {{ $user->id }} -->
-  <p>Nombre: {{ $user->name }}</p>
-  <p>Correo: {{ $user->email }}</p>
-  <p>Telefono: {{ $user->phone }}</p>
+  <div class="card">
+    <h4 class="card-header">Usuario #{{ $user->id }}</h4>
+    <div class="card-body">
+      <form>
+        <fieldset disabled>
 
-  <p>
-    <a href="{{ url('/usuarios') }}">Volver al listado</a>
-  </p>
+          <div class="form-group">
+            <label for="disabledTextInput">Nombre</label>
+            <input type="text" id="disabledTextInput" class="form-control" placeholder="{{ $user->name}} ">
+          </div>
 
-  <!--<p>
-    <a href="{{ url()->previous() }}">URL anterior</a>
-  </p>
+          <div class="form-group">
+            <label for="disabledTextInput">Correo electrónico</label>
+            <input type="text" id="disabledTextInput" class="form-control" placeholder="{{ $user->email}} ">
+          </div>
 
-   <p>
-    <a href="{{ action('UserController@index') }}">Index</a>
-  </p> -->
+          <div class="form-group">
+            <label for="disabledTextInput">Telefono</label>
+            <input type="text" id="disabledTextInput" class="form-control" placeholder="{{ $user->phone}} ">
+          </div>
+
+        </fieldset>
+        <a href="{{ url('usuarios') }}" class="btn btn-link">Volver al listado</a>
+      </form>
+    </div>
+  </div>
 @endsection
