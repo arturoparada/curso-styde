@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 
 class WelcomeUserController extends Controller
 {
+
+  public function home()
+  {
+    return view('welcome');
+  }
+
     public function saludo($name)
     {
       $name= ucfirst($name);

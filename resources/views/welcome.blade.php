@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Curso de styde</title>
-  </head>
-  <body>
-      <h1>Hola mundo</h1>
-  </body>
-</html>
+@extends('layout')
+
+@section('title', "Inicio")
+
+@section('content')
+  <h1>Menú principal</h1>
+
+  <br>
+
+  <a href="venta">Registrar venta</a>
+  <br>
+  <a href="usuarios">Ver el listado</a>
+
+@endsection

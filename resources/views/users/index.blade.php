@@ -37,6 +37,8 @@
           <button type="submit" class="btn btn-link"><span class="oi oi-trash"></span></button>
 
         </form>
+
+        </form>
       </td>
     </tr>
     @endforeach

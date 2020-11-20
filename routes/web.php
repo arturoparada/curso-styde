@@ -1,8 +1,7 @@
 <?php
 
-Route::get('/', function () {
-    return 'home';
-});
+Route::get('/', 'WelcomeUserController@home')
+    ->name('welcome');
 
 Route::get('/usuarios', 'UserController@index')
     ->name('users.index');
@@ -29,3 +28,6 @@ Route::put('/usuarios/{user}', 'UserController@update');
 
 Route::delete('/usuarios/{user}', 'UserController@destroy')
         ->name('users.destroy');
+
+Route::get('/venta', 'SalesController@venta')
+        ->name('sales.new');
