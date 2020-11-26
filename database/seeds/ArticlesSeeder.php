@@ -21,13 +21,17 @@ class ArticlesSeeder extends Seeder
       // 'existencia' => '1'
       //   ]);
 
+      // DB::table('articles')->insert([
+      //   'nombre' => 'Shampoo',
+      //   'precio' => '70',
+      //   'existencia' =>'15'
+      // ]);
+
       Articles::create([
         'nombre' => 'Vacuna3',
         'precio' => '300',
         'existencia' => '1'
       ]);
-
-      // factory(articles::class, 48)->create();
 
       Articles::create([
         'nombre' => 'Vacuna',
@@ -41,10 +45,16 @@ class ArticlesSeeder extends Seeder
         'existencia' =>'10'
       ]);
 
-      // DB::table('articles')->insert([
-      //   'nombre' => 'Shampoo',
-      //   'precio' => '70',
-      //   'existencia' =>'15'
-      // ]);
+      Articles::create([
+        'nombre' => 'Shampoo',
+        'precio' => '70',
+        'existencia' =>'15'
+      ]);
+
+      //factory(Articles::create, 50)->create();
+      factory(Articles::class, 50)->create();
+
+      //factory(articles::class, 48)->create();
+
     }
 }
